@@ -22,16 +22,19 @@ our %CoreList = (
                 );
 %CoreList = (%CoreList,%{$Module::CoreList::version{$]*1}});
 
-my $search = Pod::Simple::Search->new->inc(FALSE)->laborious(TRUE);
-my $n2p    = $search->survey(
+our %name2path;
+
+sub setup {
+  my $search = Pod::Simple::Search->new->inc(FALSE)->laborious(TRUE);
+  my $n2p    = $search->survey(
                   (grep {$_ !~ /site|vendor/ && $_ !~ /^\.$/ && $_ =~ /$Perldoc::Config::option{perl_version}/} expand(@INC)),
                   expand($Config{bin}),
                   map {"$Perldoc::Config::option{perl_source}/$_"} qw/ext lib pod/
                 );
 
-#my $n2p = $search->survey(map {"/Users/jj/perl/src/perl-5.8.8/$_"} qw/ext lib pod/); 
+    #my $n2p = $search->survey(map {"/Users/jj/perl/src/perl-5.8.8/$_"} qw/ext lib pod/); 
                 
-our %name2path = map {
+  %name2path = map {
                    my $path = $n2p->{$_};
                    s/^pods:://;
                    ($_,$path) 
@@ -39,14 +42,15 @@ our %name2path = map {
 		   $_ !~ /perltoc|perlcn|perljp|perlko|perltw/
 		 } keys %$n2p;
                  
-foreach my $pod (keys %name2path) {
-  next if (exists($CoreList{$pod}));
-  my $original_pod = $pod;
-  SEARCH: while ($pod =~ s/^\w+::(.*)/$1/) {
-    if (exists($CoreList{$pod}) && !exists($name2path{$pod})) {
-      $name2path{$pod} = $name2path{$original_pod};
-      delete $name2path{$original_pod};
-      last SEARCH;
+  foreach my $pod (keys %name2path) {
+    next if (exists($CoreList{$pod}));
+    my $original_pod = $pod;
+    SEARCH: while ($pod =~ s/^\w+::(.*)/$1/) {
+      if (exists($CoreList{$pod}) && !exists($name2path{$pod})) {
+        $name2path{$pod} = $name2path{$original_pod};
+        delete $name2path{$original_pod};
+        last SEARCH;
+      }
     }
   }
 }                 
