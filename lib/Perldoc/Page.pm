@@ -25,12 +25,14 @@ our %CoreList = (
 our %name2path;
 
 sub setup {
+  my @dirs = @_;
   my $search = Pod::Simple::Search->new->inc(FALSE)->laborious(TRUE);
-  my $n2p    = $search->survey(
-                  (grep {$_ !~ /site|vendor/ && $_ !~ /^\.$/ && $_ =~ /$Perldoc::Config::option{perl_version}/} expand(@INC)),
-                  expand($Config{bin}),
-                  map {"$Perldoc::Config::option{perl_source}/$_"} qw/ext lib pod/
-                );
+  my $n2p    = $search->survey(@dirs);
+  # removed as it was generating tons of entries with X11::X11...
+                  #(grep {$_ !~ /site|vendor/ && $_ !~ /^\.$/ && $_ =~ /$Perldoc::Config::option{perl_version}/} expand(@INC)),
+                  #expand($Config{bin}),
+                  #map {"$Perldoc::Config::option{perl_source}/$_"} qw/ext lib pod/
+                #);
 
     #my $n2p = $search->survey(map {"/Users/jj/perl/src/perl-5.8.8/$_"} qw/ext lib pod/); 
                 

@@ -43,7 +43,14 @@ CONTACT
 Jon Allen (JJ) <jj@jonallen.info>
 http://perl.jonallen.info/projects/perldoc
 
-COMMENTS
+COMMENTS by Gabor Szabo
 
-There was a patched version of Pod::POM 0.17 in the directory 
-that is now excluded from the package.
+The modified version of Pod::POM 0.17 was removed. We should see if the new
+version of Pod::POM provides what is needed.
+
+The processing is very slow, one ran of Devel::NYTProf after shortcutting
+the processing loop pointed to a large number of calls to GetOptions 
+internals possibly by Perl::Tidy.
+
+The syntax.cache needs some improvement maybe saving file-by-file in a 
+cache directory?

@@ -85,6 +85,9 @@ $Perldoc::Config::option{last_update} = "$date $month $year";
 
 #--Compute link addresses for core modules & pragmas-----------------------
 
+
+Perldoc::Page::setup('/usr/share/perl/5.10/pod/');
+
 foreach my $module (grep {/^[A-Z]/ && exists($Perldoc::Page::CoreList{$_})} Perldoc::Page::list()) {
   my $link = $module;
   $link =~ s!::!/!g;
@@ -105,6 +108,7 @@ foreach my $section (Perldoc::Section::list()) {
 #--Create index pages------------------------------------------------------
 
 foreach my $section (Perldoc::Section::list()) {
+  print "Processing section '$section'\n";
   my %index_data;
   my $template             = Template->new(INCLUDE_PATH => TT_INCLUDE_PATH);
   $index_data{pagedepth}   = 0;
@@ -125,6 +129,7 @@ foreach my $section (Perldoc::Section::list()) {
   
   # For every index page, create the corresponding man pages
   foreach my $page (Perldoc::Section::pages($section)) {
+  	print "Processing page '$page'\n";
     next if ($page eq 'perlfunc');  # 'perlfunc' will be created later
     my %page_data;
     (my $page_link = $page) =~ s/::/\//g;
@@ -142,9 +147,8 @@ foreach my $section (Perldoc::Section::list()) {
     check_filepath($filename);
     
     $template->process('default.tt',{%Perldoc::Config::option, %page_data},$filename) || die "Failed processing $page\n".$template->error;
-  }  
+  }
 }
-
 
 #--------------------------------------------------------------------------
 #--Perl core modules-------------------------------------------------------
