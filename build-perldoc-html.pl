@@ -32,24 +32,6 @@ use vars qw/%core_modules/;
 use constant TT_INCLUDE_PATH => "$Bin/templates";
 
 
-#--Compute link addresses for core modules & pragmas-----------------------
-
-foreach my $module (grep {/^[A-Z]/ && exists($Perldoc::Page::CoreList{$_})} Perldoc::Page::list()) {
-  my $link = $module;
-  $link =~ s!::!/!g;
-  $link .= '.html';
-  $core_modules{$module} = $link;
-}
-foreach my $section (Perldoc::Section::list()) {
-  next unless $section eq 'pragmas';
-  foreach my $pragma (Perldoc::Section::pages($section)) {
-    my $link = $pragma;
-    $link =~ s!::!/!g;
-    $link .= '.html';
-    $core_modules{$pragma} = $link;
-  }
-}
-
 
 #--Set config options------------------------------------------------------
 
@@ -99,6 +81,25 @@ my $month        = qw/ January
 my $year         = (localtime(time))[5] + 1900;
 
 $Perldoc::Config::option{last_update} = "$date $month $year";
+
+
+#--Compute link addresses for core modules & pragmas-----------------------
+
+foreach my $module (grep {/^[A-Z]/ && exists($Perldoc::Page::CoreList{$_})} Perldoc::Page::list()) {
+  my $link = $module;
+  $link =~ s!::!/!g;
+  $link .= '.html';
+  $core_modules{$module} = $link;
+}
+foreach my $section (Perldoc::Section::list()) {
+  next unless $section eq 'pragmas';
+  foreach my $pragma (Perldoc::Section::pages($section)) {
+    my $link = $pragma;
+    $link =~ s!::!/!g;
+    $link .= '.html';
+    $core_modules{$pragma} = $link;
+  }
+}
 
 
 #--Create index pages------------------------------------------------------
