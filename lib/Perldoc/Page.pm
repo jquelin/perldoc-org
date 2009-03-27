@@ -80,7 +80,9 @@ sub pod {
   my $page = shift;
   unless (exists $name2pod{$page}) {
     local $/ = undef;
-    open POD,'<',Perldoc::Page::filename($page) or confess("Cannot open POD for $page");
+    my $filename = Perldoc::Page::filename($page);
+    confess("Could not get filename of '$page'") if not $filename;
+    open POD,'<',$filename or confess("Cannot open POD for '$page'was trying '$filename'");
     my $pod = (<POD>);
     $pod =~ s/\r//g;
     $name2pod{$page} = $pod;
