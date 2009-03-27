@@ -1,0 +1,9 @@
+<div class="title_container">
+  <div class="page_title">[% pagename %]</div>
+  <div class="pdf_link"><a href="[% path %][% pdf_link %]">View as PDF</a></div>
+  <div class="pdf_img_link"><a href="[% path %][% pdf_link %]"><img src="[% path %]pdficon.gif" border=0></a></div>
+</div>
+
+[% FILTER evaltt %]
+  [% pod_html %]
+[% END %]

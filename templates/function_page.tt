@@ -1,0 +1,18 @@
+<div class="title_container">
+  <div class="page_title">
+    [% pagename %]
+  </div>
+  [% IF pdf_link %]
+    <div class="pdf_link"><a href="[% path %][% pdf_link %]">View as PDF</a></div>
+    <div class="pdf_img_link"><a href="[% path %][% pdf_link %]"><img src="[% path %]pdficon.gif" border=0></a></div>
+  [% END %]
+</div>
+<div class="mod_az_list">
+  <a href="[% path %]index-functions.html">Perl functions A-Z</a> |
+  <a href="[% path %]index-functions-by-cat.html">Perl functions by category</a> |
+  <a href="[% path %]perlfunc.html">The 'perlfunc' manpage</a>
+</div>
+
+[% FILTER evaltt %]
+  [% pod_html %]
+[% END %]

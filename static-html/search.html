@@ -1,0 +1,63 @@
+<script language="JavaScript" src="functionindex.js"></script>
+<script language="JavaScript" src="faqindex.js"></script>
+<script language="JavaScript" src="podindex.js"></script>
+<script language="JavaScript" src="moduleindex.js"></script>
+<script language="JavaScript" src="functionsearch.js"></script>
+
+<script language="JavaScript">{q{
+  //alert(location.search.substring(1));
+  var query = location.search.substring(1);
+  var pairs = query.split("&");
+  var args  = new Object;
+  for (var i = 0; i < pairs.length; i++) {
+    var pos = pairs[i].indexOf('=');
+    if (pos == -1) continue;
+    var argname   = pairs[i].substring(0,pos);
+    var value     = pairs[i].substring(pos+1);
+    value = value.replace(/\+/g," ");
+    args[argname] = unescape(value);
+  }
+}}</script>    
+    
+    <div class="title_container"><div class="page_title">Search results</div></div>
+<script language="JavaScript">{q{
+  if (args.q) {
+    doSearch(args.q,args.r);
+  } else {
+    alert("Query not specified");
+  }
+}}</script>
+
+<div class=spacer></div>
+<p>
+The <b>perldoc.perl.org</b> search engine is optimised to index Perl functions, core modules, and FAQs.
+To perform a full-text search of the documentation, please repeat your query using Google:
+</p>
+<center>
+<!-- SiteSearch Google -->
+  
+  <FORM method=GET action="http://www.google.com/search">
+  <input type=hidden name=ie value=UTF-8><input type=hidden name=oe value=UTF-8>
+  <TABLE bgcolor="#FFFFFF">
+    <tr>
+      <td>
+        <A HREF="http://www.google.com/">
+        <IMG SRC="Logo_40wht.gif" border="0" ALT="Google"></A>
+      </td>
+      <td>
+	  <script>{q{
+	    if (args.q) {
+	      document.write('<INPUT TYPE=text name=q size=31 maxlength=255 value="' + args.q + '">');
+	    } else {
+	      document.write('<INPUT TYPE=text name=q size=31 maxlength=255 value="">');
+	    }
+	  }}</script>
+	<INPUT type=submit name=btnG VALUE="Google Search"><font size=-1>
+	<input type=hidden name=domains value="perldoc.perl.org"><br>
+        <input type=hidden name=as_ft value="e">
+        <input type=hidden name=as_filetype value="pdf">
+	<input type=radio name=sitesearch value=""> WWW <input type=radio name=sitesearch value="perldoc.perl.org" checked> perldoc.perl.org <br></font></td></tr></TABLE></FORM><!-- SiteSearch Google -->
+</center>
+
+    &nbsp;
+            
