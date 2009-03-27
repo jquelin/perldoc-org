@@ -42,3 +42,8 @@ CONTACT
 
 Jon Allen (JJ) <jj@jonallen.info>
 http://perl.jonallen.info/projects/perldoc
+
+COMMENTS
+
+There was a patched version of Pod::POM 0.17 in the directory 
+that is now excluded from the package.
