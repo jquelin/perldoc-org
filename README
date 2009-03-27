@@ -17,6 +17,8 @@ USAGE
   To create localized versions of perldoc:
   Download POD2::XX from CPAN and unzip it to some directory.
 
+French
+
   wget http://search.cpan.org/CPAN/authors/id/P/PO/POLGAB/POD2-FR-0.02.tar.gz
   tar xzf POD2-FR-0.02.tar.gz
   mkdir fr
@@ -24,7 +26,18 @@ USAGE
   perl build-perldoc-static.pl --output-path fr
 
   It took 16 minutes to process the French files.
+  (BTW the French docs are also available here:  http://perl.enstimac.fr/DocFr.html )
 
+Italian
+
+  wget http://search.cpan.org/CPAN/authors/id/E/EN/ENRYS/POD2-IT-0.12.tar.gz
+  tar xzf POD2-IT-0.12.tar.gz
+  
+  mkdir it
+  perl build-perldoc-static.pl --output-path it
+  perl build-perldoc-html.pl --output-path it --input-path POD2-IT-0.12/IT --cache it.syntax.cache
+
+  http://pod2it.sourceforge.net/pods/
 
 NOTES
 
@@ -54,7 +67,10 @@ CONTACT
 Jon Allen (JJ) <jj@jonallen.info>
 http://perl.jonallen.info/projects/perldoc
 
-COMMENTS by Gabor Szabo
+
+COMMENTS 
+
+by Gabor Szabo
 
 The modified version of Pod::POM 0.17 was removed. We should see if the new
 version of Pod::POM provides what is needed.
@@ -69,3 +85,4 @@ cache directory?
 The input-path was added as the directories were not 
 discovered correctly on my computer. This needs to be cleaned up.
 
+How do we generate the main index.html page ?
