@@ -18,6 +18,7 @@ use Perldoc::Function::Category;
 use Perldoc::Page;
 use Perldoc::Page::Convert;
 use Perldoc::Section;
+use Perldoc::Syntax;
 
 use constant TRUE  => 1;
 use constant FALSE => 0;
@@ -35,14 +36,18 @@ use constant TT_INCLUDE_PATH => "$Bin/templates";
 
 #--Set config options------------------------------------------------------
 
-my %specifiers = ( 'output-path' => '=s' );                  
+my %specifiers = (
+	'output-path' => '=s',
+	'input-path'  => '=s',
+	'cache'       => '=s',
+);
 my %options;
 GetOptions( \%options, optionspec(%specifiers) );
 
 
 #--Check mandatory options have been given---------------------------------
 
-my @mandatory_options = qw/ output-path /;
+my @mandatory_options = qw/ output-path input-path cache/;
 
 foreach (@mandatory_options) {
   (my $option = $_) =~ tr/-/_/;
@@ -57,6 +62,8 @@ foreach (@mandatory_options) {
 unless (-d $options{output_path}) {
   die "Output path '$options{output_path}' does not exist!\n";
 }
+
+Perldoc::Syntax::load_cache( $options{cache} );
 
 $Perldoc::Config::option{output_path}  = $options{output_path};
 
@@ -86,7 +93,7 @@ $Perldoc::Config::option{last_update} = "$date $month $year";
 #--Compute link addresses for core modules & pragmas-----------------------
 
 
-Perldoc::Page::setup('/usr/share/perl/5.10/pod/');
+Perldoc::Page::setup( $options{'input_path'} );
 
 foreach my $module (grep {/^[A-Z]/ && exists($Perldoc::Page::CoreList{$_})} Perldoc::Page::list()) {
   my $link = $module;

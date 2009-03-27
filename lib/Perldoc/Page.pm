@@ -26,6 +26,7 @@ our %name2path;
 
 sub setup {
   my @dirs = @_;
+
   my $search = Pod::Simple::Search->new->inc(FALSE)->laborious(TRUE);
   my $n2p    = $search->survey(@dirs);
   # removed as it was generating tons of entries with X11::X11...

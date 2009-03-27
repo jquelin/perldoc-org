@@ -12,7 +12,18 @@ USAGE
 
   perl build-perldoc-pdf.pl --output-path /path/to/output
   perl build-perldoc-static.pl --output-path /path/to/output
-  perl build-perldoc-html.pl --output-path /path/to/output
+  perl build-perldoc-html.pl --output-path /path/to/output --input-path /usr/share/perl/5.10/pod/ --cache syntax.cache
+
+  To create localized versions of perldoc:
+  Download POD2::XX from CPAN and unzip it to some directory.
+
+  wget http://search.cpan.org/CPAN/authors/id/P/PO/POLGAB/POD2-FR-0.02.tar.gz
+  tar xzf POD2-FR-0.02.tar.gz
+  mkdir fr
+  perl build-perldoc-html.pl --output-path fr --input-path POD2-FR-0.02/FR --cache fr.syntax.cache
+  perl build-perldoc-static.pl --output-path fr
+
+  It took 16 minutes to process the French files.
 
 
 NOTES
@@ -54,3 +65,7 @@ internals possibly by Perl::Tidy.
 
 The syntax.cache needs some improvement maybe saving file-by-file in a 
 cache directory?
+
+The input-path was added as the directories were not 
+discovered correctly on my computer. This needs to be cleaned up.
+

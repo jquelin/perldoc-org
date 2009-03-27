@@ -7,10 +7,10 @@ use Storable qw/nstore retrieve/;
 use FindBin qw/$Bin/;
 
 our %cache;
+my $cachefile;
 
-
-BEGIN {
-  our $cachefile = "$Bin/syntax.cache";
+sub load_cache {
+  $cachefile = shift;
   if (-e $cachefile) {
     if (my $cacheref = retrieve($cachefile)) {
       %cache = %$cacheref;
@@ -22,7 +22,9 @@ BEGIN {
 END {
   #print Dumper(\%cache);
 #  warn "Trying to store cache to $cachefile\n";
-  nstore(\%cache,$cachefile) or die "Can't store cache file: $!\n";
+  if ($cachefile) {
+    nstore(\%cache,$cachefile) or die "Can't store cache file: $!\n";
+  }
 }  
 
 #tie my %cache => 'Memoize::Storable',"$Bin/syntax.cache",'nstore';
