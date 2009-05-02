@@ -72,11 +72,16 @@
       </ul>
       <h2>Contact:</h2>
       <ul>
-        <li>Site maintained by<br><a href="http://perl.jonallen.info">Jon Allen</a>
-            (<a href="http://perl.jonallen.info">JJ</a>)</li>
+        <li>Site maintained by<br><a href="http://szabgab.com/">Gabor Szabo</a></li>
+        <li>Code based on <a href="http://perldoc.perl.org/">perldoc.perl.org</a>
+			<br>by <a href="http://perl.jonallen.info/">Jon Allen</a>
+            (<a href="http://perl.jonallen.info/">JJ</a>)</li>
         <li class="spaced">Last updated on<br>[% last_update %]</li>
 	<li class="spaced">See the <a href="http://perl.jonallen.info/projects/perldoc">project page</a> for
 	more details</li>
+	<li class="spaced">See <a href="http://github.com/szabgab/perldoc/">github</a> for
+	source code</li>
+
       </ul>
     </div>
   </div>
