@@ -68,7 +68,7 @@ Jon Allen (JJ) <jj@jonallen.info>
 http://perl.jonallen.info/projects/perldoc
 
 
-COMMENTS 
+COMMENTS and TODO
 
 by Gabor Szabo
 
@@ -86,3 +86,31 @@ The input-path was added as the directories were not
 discovered correctly on my computer. This needs to be cleaned up.
 
 How do we generate the main index.html page ?
+
+Include an about page in each language to explain how to get involved in the translation.
+
+Contact information of the translators
+
+Contact info of site maintainer.
+
+Include the version number of each POD2:: release that has been used to generate the
+page.
+
+Links to the main site and from there to the individual translation sites.
+
+Index the X<> and the C<> tags
+
+Make it clear these documentations are not the full translations and that they might
+not correspond exactly to the version of perl they have installed on their system.
+
+Make it clear how one can start the translation effort in his own language?
+
+Make sure the site can be built on any machine and that the pages can be 
+used off-site in a nice way.
+
+Have information available in English and in the local language about who maintains 
+the translations and where to find them.
+Where to find the source code used to process this.
+On who is hosting the web site in case it is not accessible.
+
+
