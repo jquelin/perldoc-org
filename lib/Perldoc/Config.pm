@@ -5,6 +5,12 @@ use warnings;
 
 our $VERSION = '0.01';
 
+=head1 NAME
+
+Perldoc::Config - Code generating the perldoc.org web site
+
+=cut
+
 
 #--------------------------------------------------------------------------
 
