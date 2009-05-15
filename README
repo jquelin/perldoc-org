@@ -133,4 +133,21 @@ the translations and where to find them.
 Where to find the source code used to process this.
 On who is hosting the web site in case it is not accessible.
 
+ 
+Contact all the translators as I find them and talk 
+to them about keeping the POD2:: package up to date 
+on CPAN (and in general packaging their translations to POD2:: files)
+and helping with the development of the code that produces the website.
 
+Process
+
+download latest version of all the POD2::* files from CPAN
+process each one of them 
+
+
+Long term plan:
+
+Allow people to add comments similar to what happen on php.net 
+http://php.net/manual/en/function.printf.php
+or shall we keep the entrance erquirement a bit higher but centralized to
+each language?
