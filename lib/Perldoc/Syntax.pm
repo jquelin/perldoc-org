@@ -5,6 +5,7 @@ use Perl::Tidy;
 use Perldoc::Function;
 use Storable qw/nstore retrieve/;
 use FindBin qw/$Bin/;
+use File::Temp qw/tempdir/;
 
 our %cache;
 my $cachefile;
@@ -63,7 +64,8 @@ sub _highlight {
   my $result;
   my $perltidy_error;
   my $stderr;
-  perltidy( source=>\$txt, destination=>\$result, argv=>\@perltidy_argv, errorfile=>\$perltidy_error, stderr=>'std.err' );
+  my $tempdir = tempdir( CLEANUP => 1 );
+  perltidy( source=>\$txt, destination=>\$result, argv=>\@perltidy_argv, errorfile=>\$perltidy_error, stderr=> "$tempdir/std.err" );
 
   unless ($perltidy_error) {
     $result =~ s!<pre>\n*!$start!;
