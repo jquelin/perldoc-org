@@ -83,6 +83,17 @@ is generated. This code is now used to generate the perldoc.org
 subsites.
 
 
+LANGUAGE SPECIFIC ISSUES
+
+Here we are going to collect the information we need to
+add a new language.
+
+static-html/XX/index.html is the content of the front page of each language.
+
+
+
+
+
 COMMENTS and TODO
 
 The package that was distributed by Jon Allen included a modified copy of 
