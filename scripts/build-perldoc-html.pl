@@ -10,7 +10,7 @@ use FindBin qw/$Bin/;
 use Getopt::Long;
 use Template;
 
-use lib "$Bin/lib";
+use lib "$Bin/../lib";
 use Perldoc::Config;
 use Perldoc::Convert::html;
 use Perldoc::Function;
@@ -27,10 +27,11 @@ use vars qw/$processing_state/;
 use vars qw/%manpage_pods/;
 use vars qw/%core_modules/;
 
+my $ROOT = "$Bin/..";
 
 #--Set options for Template::Toolkit---------------------------------------
 
-use constant TT_INCLUDE_PATH => "$Bin/templates";
+my $TT_INCLUDE_PATH = "$ROOT/templates";
 
 
 
@@ -67,7 +68,7 @@ Perldoc::Syntax::load_cache( $options{cache} );
 
 $Perldoc::Config::option{output_path}  = $options{output_path};
 
-my $templatefile = catfile($Bin,'templates','html.template');
+my $templatefile = catfile($ROOT,'templates','html.template');
 
 
 #--Set update timestamp----------------------------------------------------
@@ -117,7 +118,7 @@ foreach my $section (Perldoc::Section::list()) {
 foreach my $section (Perldoc::Section::list()) {
   print "Processing section '$section'\n";
   my %index_data;
-  my $template             = Template->new(INCLUDE_PATH => TT_INCLUDE_PATH);
+  my $template             = Template->new(INCLUDE_PATH => $TT_INCLUDE_PATH);
   $index_data{pagedepth}   = 0;
   $index_data{path}        = '../' x $index_data{pagedepth};
   $index_data{pagename}    = Perldoc::Section::name($section);
@@ -172,7 +173,7 @@ foreach my $module_index ('A'..'Z') {
 
 foreach my $module_index ('A'..'Z') {
   my %page_data;
-  my $template            = Template->new(INCLUDE_PATH => TT_INCLUDE_PATH);
+  my $template            = Template->new(INCLUDE_PATH => $TT_INCLUDE_PATH);
   $page_data{pagedepth}   = 0;
   $page_data{path}        = '../' x $page_data{pagedepth};
   $page_data{pagename}    = qq{Core modules ($module_index)};
@@ -227,7 +228,7 @@ foreach my $module_index ('A'..'Z') {
 #--Generic variables-------------------------------------------------------
 
 my %function_data;
-my $function_template = Template->new(INCLUDE_PATH => TT_INCLUDE_PATH);
+my $function_template = Template->new(INCLUDE_PATH => $TT_INCLUDE_PATH);
 
 
 #--Index variables---------------------------------------------------------

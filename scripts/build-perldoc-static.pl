@@ -4,20 +4,20 @@ use strict;
 use warnings;
 use File::Basename;
 use File::Find;
-use File::Spec::Functions qw/catfile/;
-use FindBin qw/$Bin/;
+use File::Spec::Functions qw{catfile};
+use FindBin qw{$Bin};
 use Getopt::Long;
-use Shell qw/cp/;
+use Shell qw{cp};
 use Template;
-use Text::Template qw/fill_in_string/;
+use Text::Template qw{fill_in_string};
 
-use lib "$Bin/lib";
+use lib "$Bin/../lib";
 use Perldoc::Config;
 
-
+my $ROOT = "$Bin/..";
 #--Set options for Template::Toolkit---------------------------------------
 
-use constant TT_INCLUDE_PATH => "$Bin/templates";
+my $TT_INCLUDE_PATH = "$ROOT/templates";
 
 
 #--Set config options-----------------------------------------------------
@@ -70,21 +70,21 @@ $Perldoc::Config::option{last_update} = "$date $month $year";
 
 #--Copy static files------------------------------------------------------
 
-cp('-r', "$Bin/static/*",     $Perldoc::Config::option{output_path});
-cp('-r', "$Bin/javascript/*", $Perldoc::Config::option{output_path});
+cp('-r', "$ROOT/static/*",     $Perldoc::Config::option{output_path});
+cp('-r', "$ROOT/javascript/*", $Perldoc::Config::option{output_path});
 
 
 #--Process static html files with template--------------------------------
 
-#my $templatefile = "$Bin/templates/html.template";
+#my $templatefile = "$ROOT/templates/html.template";
 
 my $process = create_template_function(
   #templatefile => $templatefile,
   variables    => { %Perldoc::Config::option },
 );
 
-#die("Cannot chdir to static-html directory: $!\n") unless (chdir "$Bin/static-html");
-find( {wanted=>$process, no_chdir=>1}, "$Bin/static-html" );
+#die("Cannot chdir to static-html directory: $!\n") unless (chdir "$ROOT/static-html");
+find( {wanted=>$process, no_chdir=>1}, "$ROOT/static-html" );
 
 #-------------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ sub create_template_function {
     #if (open FILE,'<',$_) {
       #my $content  = (<FILE>);
       #my $template = Text::Template->new(source => $args{templatefile});
-      my $template = Template->new(INCLUDE_PATH => TT_INCLUDE_PATH,
+      my $template = Template->new(INCLUDE_PATH => $TT_INCLUDE_PATH,
                                    ABSOLUTE     => 1);
       my $depth    = () = m/\//g;
       
