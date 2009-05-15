@@ -1,14 +1,33 @@
 --------------------
-- perldoc.perl.org -
+- perldoc.org -
 --------------------
 
 DESCRIPTION
 
-This archive contains the source code for the website http://perldoc.perl.org,
-which holds the core documentaion for Perl in HTML and PDF formats.
+This archive contains the source code for the website http://perldoc.org,
+which holds the translated versions of the core documentaion for Perl in 
+HTML and PDF formats as they were released in the POD2::* namespace on CPAN.
 
 
 USAGE
+
+  mkdir cache
+  mkdir out
+  mkdir out/fr
+  mkdir out/it
+  mkdir src
+  cd src
+  wget http://search.cpan.org/CPAN/authors/id/P/PO/POLGAB/POD2-FR-0.03.tar.gz
+  tar xzf POD2-FR-0.03.tar.gz
+  wget http://search.cpan.org/CPAN/authors/id/E/EN/ENRYS/POD2-IT-0.12.tar.gz
+  tar xzf POD2-IT-0.12.tar.gz
+  cd ..
+ 
+
+  perl scripts/build.pl
+
+
+Individual scripts (will be changed)  
 
   perl build-perldoc-pdf.pl --output-path /path/to/output
   perl build-perldoc-static.pl --output-path /path/to/output
@@ -19,23 +38,10 @@ USAGE
 
 French
 
-  wget http://search.cpan.org/CPAN/authors/id/P/PO/POLGAB/POD2-FR-0.02.tar.gz
-  tar xzf POD2-FR-0.02.tar.gz
-  mkdir fr
-  perl build-perldoc-html.pl --output-path fr --input-path POD2-FR-0.02/FR --cache fr.syntax.cache
-  perl build-perldoc-static.pl --output-path fr
-
   It took 16 minutes to process the French files.
   (BTW the French docs are also available here:  http://perl.enstimac.fr/DocFr.html )
 
 Italian
-
-  wget http://search.cpan.org/CPAN/authors/id/E/EN/ENRYS/POD2-IT-0.12.tar.gz
-  tar xzf POD2-IT-0.12.tar.gz
-  
-  mkdir it
-  perl build-perldoc-static.pl --output-path it
-  perl build-perldoc-html.pl --output-path it --input-path POD2-IT-0.12/IT --cache it.syntax.cache
 
   http://pod2it.sourceforge.net/pods/
 
@@ -57,27 +63,41 @@ distributed under the terms of the Artistic License version 2.0.
 The Perl Onion logo is a trademark of The Perl Foundation. See
 http://www.perlfoundation.org/perl_trademark for usage details.
 
-A modified copy of the Pod::POM module is included in the lib/ directory.
-Pod::POM is Copyright (C) 2000-2002 Andy Wardley and distributed under the
-same terms as Perl itself.
-
-
 CONTACT
 
-Jon Allen (JJ) <jj@jonallen.info>
-http://perl.jonallen.info/projects/perldoc
+Gabor Szabo (szabgab@gmail.com)
+
+
+HISTORY
+
+This code is based on the code written by Jon Allen (JJ) <jj@jonallen.info>
+that creates the http://perldoc.perl.org/ website.
+See also http://perl.jonallen.info/projects/perldoc
+
+It was released under the Artistic 2 license on 24 December 2008
+http://use.perl.org/~jj/journal/38153
+
+Uploaded to Github by Gabor Szabo and changed.
+I don't have information about how http://perldoc.perl.org/ 
+is generated. This code is now used to generate the perldoc.org
+subsites.
 
 
 COMMENTS and TODO
 
-by Gabor Szabo
+The package that was distributed by Jon Allen included a modified copy of 
+version 0.17 of the Pod::POM module in the lib/ directory.
+It was removed. we should see if the new version of Pod::POM provides 
+what is needed.
 
-The modified version of Pod::POM 0.17 was removed. We should see if the new
-version of Pod::POM provides what is needed.
+Initial processing is very slow but once the cache is ready subsequent
+processing is fast. So adding a new language or upgrading a version
+of the documentation will take a lot of time 
+(~ 15 min / language on my notebook) but subsequent rebuilds of the site
+is quick.
 
-The processing is very slow, one ran of Devel::NYTProf after shortcutting
-the processing loop pointed to a large number of calls to GetOptions 
-internals possibly by Perl::Tidy.
+One ran of Devel::NYTProf after shortcutting the processing loop pointed 
+to a large number of calls to GetOptions internals possibly by Perl::Tidy.
 
 The syntax.cache needs some improvement maybe saving file-by-file in a 
 cache directory?
@@ -89,7 +109,7 @@ How do we generate the main index.html page ?
 
 Include an about page in each language to explain how to get involved in the translation.
 
-Contact information of the translators
+Contact information of the translators.
 
 Contact info of site maintainer.
 
