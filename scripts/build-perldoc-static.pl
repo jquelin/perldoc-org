@@ -2,14 +2,14 @@
 
 use strict;
 use warnings;
-use File::Basename;
-use File::Find;
+use File::Basename        qw{basename};
+use File::Find            qw{find};
 use File::Spec::Functions qw{catfile};
-use FindBin qw{$Bin};
-use Getopt::Long;
-use Shell qw{cp};
+use FindBin               qw{$Bin};
+use Getopt::Long          qw{GetOptions};
+use Shell                 qw{cp};
 use Template;
-use Text::Template qw{fill_in_string};
+use Text::Template        qw{fill_in_string};
 
 use lib "$Bin/../lib";
 use Perldoc::Config;
@@ -92,6 +92,7 @@ sub create_template_function {
   my %args = @_;
   return sub {
     return unless (/(\w+)\.html$/);
+    print "processing $_\n";
     my $page = $1;
     local $/ = undef;
     #if (open FILE,'<',$_) {
@@ -120,7 +121,8 @@ sub create_template_function {
       
       #my $html = $template->fill_in(hash => {%Perldoc::Config::option, %variables});
       
-      my $output_filename = catfile($Perldoc::Config::option{output_path},$_);
+      my $output_filename = catfile($Perldoc::Config::option{output_path}, basename $_);
+      print "Output file: $output_filename\n";
       #if (open OUT,'>',$output_filename) {
       #  print OUT $html;
       #}
