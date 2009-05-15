@@ -23,14 +23,14 @@ my $TT_INCLUDE_PATH = "$ROOT/templates";
 
 #--Set config options-----------------------------------------------------
 
-my %specifiers = ( 'output-path' => '=s' );                  
+my %specifiers = ( 'output-path' => '=s', 'language' => '=s' );
 my %options;
 GetOptions( \%options, optionspec(%specifiers) );
 
 
 #--Check mandatory options have been given--------------------------------
 
-my @mandatory_options = qw/ output-path /;
+my @mandatory_options = qw/ output-path language /;
 
 foreach (@mandatory_options) {
   (my $option = $_) =~ tr/-/_/;
@@ -47,6 +47,8 @@ unless (-d $options{output_path}) {
 }
 
 $Perldoc::Config::option{output_path}  = $options{output_path};
+$Perldoc::Config::option{language}  = $options{language};
+
 
 
 #--Set update timestamp---------------------------------------------------
@@ -87,10 +89,12 @@ my $process = create_template_function(
 #die("Cannot chdir to static-html directory: $!\n") unless (chdir "$ROOT/static-html");
 #find( {wanted=>$process, no_chdir=>1}, "$ROOT/static-html" );
 
-foreach my $file (glob "static-html/*.html") {
+foreach my $file (glob "static-html/*.html static-html/$Perldoc::Config::option{language}/*.html") {
 	local $_ = $file;
 	$process->();
 }
+
+
 
 #-------------------------------------------------------------------------
 
