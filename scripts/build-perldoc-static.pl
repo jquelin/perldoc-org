@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dumper          qw{Dumper};
 use File::Basename        qw{basename};
 use File::Find            qw{find};
 use File::Spec::Functions qw{catfile};
@@ -84,7 +85,12 @@ my $process = create_template_function(
 );
 
 #die("Cannot chdir to static-html directory: $!\n") unless (chdir "$ROOT/static-html");
-find( {wanted=>$process, no_chdir=>1}, "$ROOT/static-html" );
+#find( {wanted=>$process, no_chdir=>1}, "$ROOT/static-html" );
+
+foreach my $file (glob "static-html/*.html") {
+	local $_ = $file;
+	$process->();
+}
 
 #-------------------------------------------------------------------------
 
@@ -92,8 +98,9 @@ sub create_template_function {
   my %args = @_;
   return sub {
     return unless (/(\w+)\.html$/);
-    print "processing $_\n";
+    #print "processing $_\n";
     my $page = $1;
+	#print "page: $page\n";
     local $/ = undef;
     #if (open FILE,'<',$_) {
       #my $content  = (<FILE>);
@@ -113,19 +120,20 @@ sub create_template_function {
       );
       
       my %variables;
-      $variables{path}       = '../' x ($depth - 1);
+      #$variables{path}       = '../' x ($depth - 1);
       $variables{pagename}   = $titles{$page} || $page;
       $variables{breadcrumb} = $breadcrumbs{$page} || $page;
-      $variables{content_tt} = $File::Find::name;
+      $variables{content_tt} = catfile($ROOT, $_); #$File::Find::name;
       #$variables{content}  = fill_in_string($content,hash => {%Perldoc::Config::option, %variables});
       
       #my $html = $template->fill_in(hash => {%Perldoc::Config::option, %variables});
       
       my $output_filename = catfile($Perldoc::Config::option{output_path}, basename $_);
-      print "Output file: $output_filename\n";
+      #print "Output file: $output_filename\n";
       #if (open OUT,'>',$output_filename) {
       #  print OUT $html;
       #}
+      #print Dumper \%Perldoc::Config::option;
       $template->process('default.tt',{%Perldoc::Config::option, %variables},$output_filename) || die "Failed processing $page\n".$template->error;
     #}   
   }
