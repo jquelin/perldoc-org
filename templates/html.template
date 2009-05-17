@@ -22,7 +22,7 @@
     <img src="{$path}onion.gif">
   </div>
   <div id="pageHeaderText">
-    <a href="{$site_href}">{$site_title}</a>
+    <a href="http://{$site_href}">{$site_title}</a>
   </div>
 </div>
 

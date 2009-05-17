@@ -48,6 +48,8 @@ unless (-d $options{output_path}) {
 
 $Perldoc::Config::option{output_path}  = $options{output_path};
 $Perldoc::Config::option{language}  = $options{language};
+$Perldoc::Config::option{site_href} = "$options{language}.$Perldoc::Config::option{site_href}";
+$Perldoc::Config::option{site_title} = "$options{language}.$Perldoc::Config::option{site_title}";
 
 
 

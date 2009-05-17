@@ -15,9 +15,7 @@ Perldoc::Config - Code generating the perldoc.org web site
 #--------------------------------------------------------------------------
 
 our %option = (
-  output_path  => '/tmp/perldoc',
-  site_href    => 'http://perldoc.perl.org',
-  site_title   => 'perldoc.perl.org',
+  site_href    => 'perldoc.org',
+  site_title   => 'perldoc.org',
   perl_version => sprintf("%vd",$^V),
-  perl_source  => '/Users/jj/perl/src/perl-'.sprintf("%vd",$^V),
 );

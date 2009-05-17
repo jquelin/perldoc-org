@@ -9,6 +9,7 @@ use File::Spec::Functions;
 use FindBin qw/$Bin/;
 use Getopt::Long;
 use Template;
+use Data::Dumper qw/Dumper/;
 
 use lib "$Bin/../lib";
 use Perldoc::Config;
@@ -38,9 +39,10 @@ my $TT_INCLUDE_PATH = "$ROOT/templates";
 #--Set config options------------------------------------------------------
 
 my %specifiers = (
-	'output-path' => '=s',
-	'input-path'  => '=s',
-	'cache'       => '=s',
+    'output-path' => '=s',
+    'input-path'  => '=s',
+    'cache'       => '=s',
+    'language'    => '=s'
 );
 my %options;
 GetOptions( \%options, optionspec(%specifiers) );
@@ -48,7 +50,7 @@ GetOptions( \%options, optionspec(%specifiers) );
 
 #--Check mandatory options have been given---------------------------------
 
-my @mandatory_options = qw/ output-path input-path cache/;
+my @mandatory_options = qw/ output-path input-path cache language /;
 
 foreach (@mandatory_options) {
   (my $option = $_) =~ tr/-/_/;
@@ -67,6 +69,9 @@ unless (-d $options{output_path}) {
 Perldoc::Syntax::load_cache( $options{cache} );
 
 $Perldoc::Config::option{output_path}  = $options{output_path};
+
+$Perldoc::Config::option{site_href} = "$options{language}.$Perldoc::Config::option{site_href}";
+$Perldoc::Config::option{site_tile} = "$options{language}.$Perldoc::Config::option{site_title}";
 
 my $templatefile = catfile($ROOT,'templates','html.template');
 
@@ -116,7 +121,7 @@ foreach my $section (Perldoc::Section::list()) {
 #--Create index pages------------------------------------------------------
 
 foreach my $section (Perldoc::Section::list()) {
-  print "Processing section '$section'\n";
+  #print "Processing section '$section'\n";
   my %index_data;
   my $template             = Template->new(INCLUDE_PATH => $TT_INCLUDE_PATH);
   $index_data{pagedepth}   = 0;
@@ -137,7 +142,7 @@ foreach my $section (Perldoc::Section::list()) {
   
   # For every index page, create the corresponding man pages
   foreach my $page (Perldoc::Section::pages($section)) {
-  	print "Processing page '$page'\n";
+    #print "Processing page '$page'\n";
     next if ($page eq 'perlfunc');  # 'perlfunc' will be created later
     my %page_data;
     (my $page_link = $page) =~ s/::/\//g;
@@ -153,7 +158,6 @@ foreach my $section (Perldoc::Section::list()) {
 
     my $filename  = catfile($Perldoc::Config::option{output_path},$page_data{pageaddress});    
     check_filepath($filename);
-    
     $template->process('default.tt',{%Perldoc::Config::option, %page_data},$filename) || die "Failed processing $page\n".$template->error;
   }
 }
